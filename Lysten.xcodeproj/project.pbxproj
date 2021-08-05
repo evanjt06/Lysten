@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,11 @@
 		397F9EAB26BB637F00174DB9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F9EAA26BB637F00174DB9 /* ContentView.swift */; };
 		397F9EAD26BB639B00174DB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 397F9EAC26BB639B00174DB9 /* Assets.xcassets */; };
 		397F9EB026BB639B00174DB9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 397F9EAF26BB639B00174DB9 /* Preview Assets.xcassets */; };
+		399F519826BBB00100E29E67 /* bossa.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 399F519726BBB00100E29E67 /* bossa.mp3 */; };
+		39C45DA826BB6A1A00162F6D /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 39C45DA726BB6A1A00162F6D /* SwiftUIX */; };
+		39C45DAA26BB8B3500162F6D /* FindSongs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C45DA926BB8B3500162F6D /* FindSongs.swift */; };
+		39C45DAC26BB8B5D00162F6D /* AddSongs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C45DAB26BB8B5D00162F6D /* AddSongs.swift */; };
+		39C45DAE26BB8B6C00162F6D /* LiveRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C45DAD26BB8B6C00162F6D /* LiveRecord.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +25,10 @@
 		397F9EAC26BB639B00174DB9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		397F9EAF26BB639B00174DB9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		397F9EB126BB639B00174DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		399F519726BBB00100E29E67 /* bossa.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bossa.mp3; sourceTree = "<group>"; };
+		39C45DA926BB8B3500162F6D /* FindSongs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindSongs.swift; sourceTree = "<group>"; };
+		39C45DAB26BB8B5D00162F6D /* AddSongs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSongs.swift; sourceTree = "<group>"; };
+		39C45DAD26BB8B6C00162F6D /* LiveRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveRecord.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39C45DA826BB6A1A00162F6D /* SwiftUIX in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +67,10 @@
 				397F9EAC26BB639B00174DB9 /* Assets.xcassets */,
 				397F9EB126BB639B00174DB9 /* Info.plist */,
 				397F9EAE26BB639B00174DB9 /* Preview Content */,
+				39C45DA926BB8B3500162F6D /* FindSongs.swift */,
+				399F519726BBB00100E29E67 /* bossa.mp3 */,
+				39C45DAB26BB8B5D00162F6D /* AddSongs.swift */,
+				39C45DAD26BB8B6C00162F6D /* LiveRecord.swift */,
 			);
 			path = Lysten;
 			sourceTree = "<group>";
@@ -85,6 +99,9 @@
 			dependencies = (
 			);
 			name = Lysten;
+			packageProductDependencies = (
+				39C45DA726BB6A1A00162F6D /* SwiftUIX */,
+			);
 			productName = Lysten;
 			productReference = 397F9EA526BB637F00174DB9 /* Lysten.app */;
 			productType = "com.apple.product-type.application";
@@ -112,6 +129,9 @@
 				Base,
 			);
 			mainGroup = 397F9E9C26BB637F00174DB9;
+			packageReferences = (
+				39C45DA626BB6A1A00162F6D /* XCRemoteSwiftPackageReference "SwiftUIX" */,
+			);
 			productRefGroup = 397F9EA626BB637F00174DB9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -128,6 +148,7 @@
 			files = (
 				397F9EB026BB639B00174DB9 /* Preview Assets.xcassets in Resources */,
 				397F9EAD26BB639B00174DB9 /* Assets.xcassets in Resources */,
+				399F519826BBB00100E29E67 /* bossa.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +159,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39C45DAC26BB8B5D00162F6D /* AddSongs.swift in Sources */,
 				397F9EAB26BB637F00174DB9 /* ContentView.swift in Sources */,
+				39C45DAA26BB8B3500162F6D /* FindSongs.swift in Sources */,
 				397F9EA926BB637F00174DB9 /* LystenApp.swift in Sources */,
+				39C45DAE26BB8B6C00162F6D /* LiveRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +301,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.evantu.Lysten;
+				PRODUCT_BUNDLE_IDENTIFIER = com.evantu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -299,7 +323,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.evantu.Lysten;
+				PRODUCT_BUNDLE_IDENTIFIER = com.evantu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -328,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		39C45DA626BB6A1A00162F6D /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		39C45DA726BB6A1A00162F6D /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39C45DA626BB6A1A00162F6D /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 397F9E9D26BB637F00174DB9 /* Project object */;
 }
