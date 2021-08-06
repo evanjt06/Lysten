@@ -6,9 +6,15 @@
 //
 
 import AVFoundation
+import AVKit
 import SwiftUI
 
 struct FindSongs: View {
+    
+    @State var which = ""
+    @State var textLink = ""
+    
+    @State var player: AVPlayer?
     
     var body: some View {
         ZStack {
@@ -16,7 +22,11 @@ struct FindSongs: View {
             
             VStack {
                 
-                Button(action: {}) {
+                Button(action: {
+                    
+                    which = "YouTube"
+                    
+                }) {
                     
                     HStack {
                         Text("Use YouTube")
@@ -26,13 +36,17 @@ struct FindSongs: View {
                            
                     }.font(.system(.headline, design: .rounded))
                     .frame(width: UIScreen.main.bounds.width - 30, height: 40)
-                    .background(Color.init(red: 60/255, green: 114/255, blue: 201/255))
+                    .background(which == "YouTube" ? Color.green : Color.init(red: 60/255, green: 114/255, blue: 201/255))
                     .foregroundColor(.white)
                     .cornerRadius(13)
                 }
                 .padding(2)
                 
-                Button(action: {}) {
+                Button(action: {
+                    
+                    which = "TikTok"
+                    
+                }) {
                     HStack {
                         Text("Use TikTok")
                         Image("tiktok")
@@ -41,22 +55,65 @@ struct FindSongs: View {
                         
                     }.font(.system(.headline, design: .rounded))
                     .frame(width: UIScreen.main.bounds.width - 30, height: 40)
-                    .background(Color.init(red: 60/255, green: 114/255, blue: 201/255))
+                    .background(which == "TikTok" ? Color.green : Color.init(red: 60/255, green: 114/255, blue: 201/255))
                     .foregroundColor(.white)
                     .cornerRadius(13)
                 }
                 .padding(2)
                
                 Divider()
+                
+                HStack {
+                TextField("Please enter the link", text: $textLink)
+                    .padding(10)
+                    .background(Color.black)
+                    .foregroundColor(.white)
+                    .cornerRadius(20)
+                  
+                    Spacer()
+                    
+                    Button(action: {
+                        print("play")
+                        let url = NSURL(string: "https://s3.us-west-2.amazonaws.com/calc.masa.space/hello.mp3")
+                        self.play(url: url!)
+                    }) {
+                        Image(systemName: "magnifyingglass")
+                            .scaleEffect(1.5)
+                            .accentColor(.white)
+                    }
+                }.padding(10)
+                    
+                
                 Spacer()
                     
                 
-                SongView()
+//                SongView()
                 
             }.navigationBarTitle("Find songs")
             .padding()
         }
     }
+    
+    
+    func play(url:NSURL) {
+        print("playing \(url)")
+
+        do {
+
+            let playerItem = AVPlayerItem(url: url as URL)
+
+            self.player = try! AVPlayer(playerItem:playerItem)
+            player!.volume = 1.0
+            player!.play()
+            
+            print("done")
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        } catch {
+            print("AVAudioPlayer init failed")
+        }
+    }
+
 }
 
 struct FindSongs_Previews: PreviewProvider {

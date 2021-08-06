@@ -84,39 +84,6 @@ struct ContentView: View {
                             .shadow(radius: 12)
                             .padding(.bottom, 20)
                         }
-                        
-                        NavigationLink(destination: LiveRecord()) {
-                            VStack(alignment: .trailing ) {
-                                HStack(alignment: .top){
-                                    VStack(alignment: .leading) {
-                                        Text("Live Record")
-                                            .foregroundColor(.white)
-                                            .font(.title)
-                                            .bold()
-                                        Text("Use music recognition")
-                                            .foregroundColor(.white)
-                                            .font(.subheadline)
-                                            .foregroundColor(Color.secondary)
-                                        
-                                        HStack {
-                                            Spacer()
-                                        Image("c")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            Spacer()
-                                        }
-                                    }.padding(.horizontal, 0)
-                                    Spacer()
-                                }.padding()
-                                Spacer()
-                            }
-                            .frame(width: UIScreen.main.bounds.width - 40, height: 280)
-                            .background(LinearGradient(gradient: Gradient(colors: [Color("C3"), Color("C4")]), startPoint: .top, endPoint: .bottomTrailing))
-                            .cornerRadius(20)
-                            .shadow(radius: 12)
-                            .padding(.bottom, 20)
-                        }
-                            
                                     
                     }.padding(.top)
 
