@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State var songRecordArray = [SongRecord]()
+    
     init() {
             //Use this if NavigationBarTitle is with Large Font
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Copperplate", size: 45)!, .foregroundColor: UIColor.white]
@@ -24,7 +26,7 @@ struct ContentView: View {
                     
                     ScrollView(showsIndicators: false) {
                                   
-                        NavigationLink(destination: FindSongs()) {
+                        NavigationLink(destination: FindSongs(songRecordArray: $songRecordArray)) {
                             VStack(alignment: .trailing ) {
                                 HStack(alignment: .top){
                                     VStack(alignment: .leading) {
@@ -56,11 +58,11 @@ struct ContentView: View {
                             .padding(.bottom, 20)  
                         }
                         
-                        NavigationLink(destination: AddSongs()) {
+                        NavigationLink(destination: AddSongs(songRecordArray: $songRecordArray)) {
                             VStack(alignment: .trailing ) {
                                 HStack(alignment: .top){
                                     VStack(alignment: .leading) {
-                                        Text("Add songs to playlist")
+                                        Text("View songs in your playlist")
                                             .foregroundColor(.white)
                                             .font(.title)
                                             .bold()
@@ -99,4 +101,12 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
+}
+
+
+struct SongRecord: Identifiable {
+    let id = UUID()
+    var name: String
+    var duration: String
+    var linkToS3: String
 }
