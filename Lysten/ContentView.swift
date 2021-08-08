@@ -34,7 +34,7 @@ struct ContentView: View {
                                             .foregroundColor(.white)
                                             .font(.title)
                                             .bold()
-                                        Text("Use Youtube and TikTok to find your favorite songs!")
+                                        Text("Use Youtube to find your favorite songs!")
                                             .foregroundColor(.white)
                                             .font(.subheadline)
                                             .foregroundColor(Color.secondary)
@@ -62,7 +62,7 @@ struct ContentView: View {
                             VStack(alignment: .trailing ) {
                                 HStack(alignment: .top){
                                     VStack(alignment: .leading) {
-                                        Text("View songs in your playlist")
+                                        Text("View songs in playlist")
                                             .foregroundColor(.white)
                                             .font(.title)
                                             .bold()
