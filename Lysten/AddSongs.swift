@@ -102,11 +102,11 @@ struct SheetView: View {
                                 let x = CMTimeGetSeconds(player?.currentTime() ?? CMTime(seconds: 0, preferredTimescale: 1000000))
                                 
                                 let a = TimeInterval(Float64(x))
-                                print(x,a)
-                                
                                 let max = CMTimeGetSeconds(player!.currentItem!.asset.duration)
-                                print(max)
-                                if x >= max {
+                                
+                                print(x,max)
+                                
+                                if x >= max || x + 2 >= max {
                                     playValue = 0.0
                                     play(url: NSURL(string: self.songS3URL)!)
                                     
