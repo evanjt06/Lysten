@@ -114,8 +114,7 @@ struct FindSongs: View {
         
         self.isLoading = true
         
-//        let url = URL(string: "http://localhost:8080/" + urlString)
-        let url = URL(string: "https://api.opentennis.pro/upload?q=" + urlString)
+        let url = URL(string: "http://50.18.240.5:8080/upload?q=" + urlString)
         guard let requestUrl = url else { fatalError() }
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
@@ -228,7 +227,7 @@ struct SongView: View {
                     if isPlaying {
                         pauseSounds()
                     } else {
-                        let url = NSURL(string: "https://s3.us-west-2.amazonaws.com/calc.masa.space/" + cml + ".mp3")
+                        let url = NSURL(string: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3")
                         self.play(url: url!)
                     }
                    
