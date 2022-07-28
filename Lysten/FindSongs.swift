@@ -249,7 +249,7 @@ struct SongView: View {
                 
                 Button(action: {
                     
-                    let sr = SongRecord(name: videoTitle, duration: songDuration, linkToS3: "https://s3.us-west-2.amazonaws.com/calc.masa.space/" + cml + ".mp3")
+                    let sr = SongRecord(name: videoTitle, duration: songDuration, linkToS3: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3")
                     
                     songRecordArray.append(sr)
                     
