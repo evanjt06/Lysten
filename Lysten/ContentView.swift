@@ -58,7 +58,7 @@ struct ContentView: View {
                             .padding(.bottom, 20)  
                         }
                         
-                        NavigationLink(destination: AddSongs(songRecordArray: $songRecordArray)) {
+                        NavigationLink(destination: AddSongs()) {
                             VStack(alignment: .trailing ) {
                                 HStack(alignment: .top){
                                     VStack(alignment: .leading) {

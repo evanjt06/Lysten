@@ -11,7 +11,8 @@ import AVKit
 
 struct AddSongs: View {
     
-    @Binding var songRecordArray: [SongRecord]
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(fetchRequest: PlayMusic.fetchRequest()) var data: FetchedResults<PlayMusic>
     
     @State var showingSheet = false
     
@@ -36,28 +37,42 @@ struct AddSongs: View {
             VStack {
                 
                 List {
-                        ForEach(songRecordArray, id: \.id) { record in
+                    ForEach(self.data) { record in
                             
                               HStack {
-                                Text(record.name.replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ".mp3", with: ""))
+                                Text(record.title.replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ".mp3", with: ""))
                                         .font(.headline)
                                     Spacer()
-                                    Text(record.duration)
+                                  Text(record.duration)
                                 }
                               .padding()
                                 .onTapGesture {
                                     
                                     showingSheet = true
-                                    songS3URL = record.linkToS3
-                                    videoTitle = record.name
+                                    songS3URL = record.link
+                                    videoTitle = record.title
                                     
-                                    print(songS3URL, videoTitle)
+                                    // stop playing lmfao
+                                    if isPlaying == true {
+                                        self.player!.pause()
+                                        self.isPlaying = false
+                                        player?.seek(to: CMTime(seconds: playValue, preferredTimescale: 1000000))
+                                        playValue = 0.0
+                                    }
                                     
                                 }
                                 
-                            }.onDelete { (indexSet) in
-                                self.songRecordArray.remove(atOffsets: indexSet)
-                            }
+                            }.onDelete(perform: { indexSet in
+                                let di = data[indexSet.first!]
+                                
+                                self.viewContext.delete(di)
+                                
+                                do {
+                                    try self.viewContext.save()
+                                } catch {
+                                    print(error.localizedDescription)
+                                }
+                            })
                 }
                 
             }
@@ -183,6 +198,15 @@ struct SheetView: View {
             self.player = try! AVPlayer(playerItem:playerItem)
             player!.volume = 1.0
             player?.seek(to: CMTime(seconds: playValue, preferredTimescale: 1000000))
+            
+            let audioSession = AVAudioSession.sharedInstance()
+           
+           do {
+               try audioSession.setCategory(AVAudioSession.Category.playback)
+           } catch {
+               
+           }
+            
             player!.play()
             
             let duration = Int(CMTimeGetSeconds(player!.currentItem!.asset.duration))

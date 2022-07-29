@@ -62,29 +62,32 @@ struct FindSongs: View {
                             return
                         }
                         
+                       
                         if textLink.contains("https://www.youtube.com/watch?v=") {
                             temp = textLink.replacingOccurrences(of: "https://www.youtube.com/watch?v=", with: "")
-                            
+
                             sendApiCall(urlString: temp)
-                            
+
                             print(temp)
-                            
-                        
+
+
                         } else if textLink.contains("https://youtu.be/") && textLink.contains("?list=") {
-                            
+
                             temp = textLink.replacingOccurrences(of: "https://youtu.be/", with: "").replacingOccurrences(of: "?list=", with: " ")
                             let tt = temp.split(separator: " ")
-                            
+
                             print(tt[0])
-                            
+
                             temp = String(tt[0])
                             sendApiCall(urlString: String(tt[0]))
                         } else if textLink.contains("https://youtu.be/") {
                             temp = textLink.replacingOccurrences(of: "https://youtu.be/", with: "")
-                            
+
                             print(temp)
                             sendApiCall(urlString: temp)
                         }
+                        
+
                         
                         textLink = ""
                         
@@ -106,7 +109,7 @@ struct FindSongs: View {
                         .multilineTextAlignment(.center)
                         .padding()
                 } else if isLoading == false && vidTitle != "" && temp != "" {
-                    SongView(songRecordArray: $songRecordArray, cml: temp, videoTitle: vidTitle)
+                    SongView(songRecordArray: $songRecordArray, cml: temp, videoTitle: vidTitle, date: Date())
                 }
                 
             }.navigationBarTitle("Find songs")
@@ -156,6 +159,8 @@ struct FindSongs: View {
 
 struct SongView: View {
     
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @Binding var songRecordArray: [SongRecord]
     
     @State var player: AVPlayer?
@@ -170,7 +175,9 @@ struct SongView: View {
     @State var saved = false
     
     var cml: String
+    
     var videoTitle: String
+    var date: Date
     @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   
     var body: some View {
@@ -265,6 +272,22 @@ struct SongView: View {
                     let sr = SongRecord(name: videoTitle, duration: songDuration, linkToS3: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3")
                     
                     songRecordArray.append(sr)
+                    
+//                  replace this with core data
+                    let playlist: PlayMusic
+                    playlist = PlayMusic(context: viewContext)
+                    playlist.link = "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3"
+                    playlist.title = videoTitle
+                    playlist.duration = songDuration
+                    playlist.date = date
+                    
+                    do {
+                       try self.viewContext.save()
+
+                       print("playlist shit SAVED")
+                   } catch {
+                       print("280 shit - \(error.localizedDescription)")
+                   }
                     
                     saved = true
                     
