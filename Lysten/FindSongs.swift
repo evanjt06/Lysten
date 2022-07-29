@@ -58,6 +58,7 @@ struct FindSongs: View {
                     Button(action: {
                         
                         if textLink == "" {
+                            print("EMPTY")
                             return
                         }
                         
@@ -66,18 +67,26 @@ struct FindSongs: View {
                             
                             sendApiCall(urlString: temp)
                             
+                            print(temp)
+                            
                         
                         } else if textLink.contains("https://youtu.be/") && textLink.contains("?list=") {
                             
                             temp = textLink.replacingOccurrences(of: "https://youtu.be/", with: "").replacingOccurrences(of: "?list=", with: " ")
                             let tt = temp.split(separator: " ")
                             
+                            print(tt[0])
+                            
+                            temp = String(tt[0])
                             sendApiCall(urlString: String(tt[0]))
                         } else if textLink.contains("https://youtu.be/") {
                             temp = textLink.replacingOccurrences(of: "https://youtu.be/", with: "")
                             
+                            print(temp)
                             sendApiCall(urlString: temp)
                         }
+                        
+                        textLink = ""
                         
                         
                     }) {
@@ -248,6 +257,10 @@ struct SongView: View {
                 Spacer()
                 
                 Button(action: {
+                    
+                    if (saved) {
+                        return
+                    }
                     
                     let sr = SongRecord(name: videoTitle, duration: songDuration, linkToS3: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3")
                     
