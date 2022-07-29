@@ -18,6 +18,16 @@ struct AddSongs: View {
     @State var songS3URL = ""
     @State var videoTitle = ""
     
+    @State var player: AVPlayer?
+    @State var playerItem: AVPlayerItem?
+    
+    @State var isPlaying = false
+    
+    @State var songDuration = ""
+    
+    @State var playValue: TimeInterval = 0.0
+    
+    
     var body: some View {
         ZStack {
             Color.init(red: 30/255, green: 37/255, blue: 84/255).ignoresSafeArea(.all)
@@ -53,12 +63,13 @@ struct AddSongs: View {
             }
             .padding().navigationBarTitle("Your playlist")
             .sheet(isPresented: $showingSheet) {
-                SheetView(songS3URL: self.$songS3URL, videoTitle: self.$videoTitle)
+                SheetView(songS3URL: self.$songS3URL, videoTitle: self.$videoTitle, player: self.$player, playerItem: self.$playerItem, isPlaying: self.$isPlaying, songDuration: self.$songDuration, playValue: self.$playValue)
                     }
             
             Spacer()
         }
     }
+    
 }
 
 struct SheetView: View {
@@ -66,14 +77,14 @@ struct SheetView: View {
     @Binding var songS3URL: String
     @Binding var videoTitle: String
     
-    @State var player: AVPlayer?
-    @State var playerItem: AVPlayerItem?
+    @Binding var player: AVPlayer?
+    @Binding var playerItem: AVPlayerItem?
     
-    @State var isPlaying = false
+    @Binding var isPlaying: Bool
     
-    @State var songDuration = ""
+    @Binding var songDuration: String
     
-    @State var playValue: TimeInterval = 0.0
+    @Binding var playValue: TimeInterval
     @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -200,4 +211,6 @@ struct SheetView: View {
         self.player!.pause()
         self.isPlaying = false
     }
+    
+   
 }
