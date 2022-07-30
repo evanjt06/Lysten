@@ -11,6 +11,8 @@ import SwiftUI
 
 struct FindSongs: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @Binding var songRecordArray: [SongRecord]
     
     @State var textLink = ""
@@ -24,6 +26,22 @@ struct FindSongs: View {
             Color.init(red: 30/255, green: 37/255, blue: 84/255).ignoresSafeArea(.all)
             
             VStack {
+                
+                VStack {
+                    HStack {
+                        Text("1. Open YouTube App").foregroundColor(Color.white)
+                        Spacer()
+                    }
+                    HStack {
+                        Text("2. Search up a music video").foregroundColor(Color.white)
+                        Spacer()
+                    }
+                    HStack {
+                        Text("3. Copy the video link and paste it in Lysten").foregroundColor(Color.white)
+                        Spacer()
+                    }
+                        
+                }.padding(.bottom)
                 
                 Button(action: {
                   
