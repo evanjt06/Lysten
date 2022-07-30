@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContentView: View {
+    
+    @State var timer: Publishers.Autoconnect<Timer.TimerPublisher> = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     @State var songRecordArray = [SongRecord]()
     
@@ -58,7 +61,7 @@ struct ContentView: View {
                             .padding(.bottom, 20)  
                         }
                         
-                        NavigationLink(destination: AddSongs()) {
+                        NavigationLink(destination: AddSongs(timer: timer)) {
                             VStack(alignment: .trailing ) {
                                 HStack(alignment: .top){
                                     VStack(alignment: .leading) {

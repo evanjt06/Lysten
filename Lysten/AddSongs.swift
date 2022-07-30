@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import AVKit
+import Combine
 
 struct AddSongs: View {
     
@@ -27,6 +28,7 @@ struct AddSongs: View {
     
     @State var playValue: TimeInterval = 0.0
     
+    var timer: Publishers.Autoconnect<Timer.TimerPublisher>
     
     var body: some View {
         ZStack {
@@ -81,7 +83,7 @@ struct AddSongs: View {
             }
             .padding().navigationBarTitle("Your playlist")
             .sheet(isPresented: $showingSheet) {
-                SheetView(songS3URL: self.$songS3URL, videoTitle: self.$videoTitle, player: self.$player, playerItem: self.$playerItem, isPlaying: self.$isPlaying, playValue: self.$playValue)
+                SheetView(songS3URL: self.$songS3URL, videoTitle: self.$videoTitle, player: self.$player, playerItem: self.$playerItem, isPlaying: self.$isPlaying, playValue: self.$playValue, timer: timer)
                     }
             
             Spacer()
@@ -105,7 +107,8 @@ struct SheetView: View {
     @State var songIncrement: String = ""
     
     @Binding var playValue: TimeInterval
-    @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    var timer: Publishers.Autoconnect<Timer.TimerPublisher>
     
     var body: some View {
         VStack {
@@ -141,44 +144,46 @@ struct SheetView: View {
                         }
                                     .onReceive(timer) { _ in
 
-                                        if isPlaying {
+                                        DispatchQueue.main.async {
+                                            if isPlaying {
+                                                
+                                                let x = CMTimeGetSeconds(player?.currentTime() ?? CMTime(seconds: 0, preferredTimescale: 1000000))
+                                                
+                                                let a = TimeInterval(Float64(x))
+                                                let max = CMTimeGetSeconds(player!.currentItem!.asset.duration)
+                                                
+                                                print(136, round(x), round(max))
+                                                
+                                                let minutes = Int(round(x) / 60)
+                                                let seconds = Int(round(x)) - (minutes * 60)
+                                                
+                                                if seconds < 10 {
+                                                    self.songIncrement = "\(minutes):0\(seconds)"
+                                                } else {
+                                                    self.songIncrement = "\(minutes):\(seconds)"
+                                                }
+                                                
+                                                if round(x) >= round(max) {
+                                                    playValue = 0.0
+                                                    play(url: NSURL(string: self.songS3URL)!)
+                                                } else {
+                                                    self.playValue = a
+                                                }
+                                                
+                                                let duration = Int(CMTimeGetSeconds(player!.currentItem!.asset.duration))
                                             
-                                            let x = CMTimeGetSeconds(player?.currentTime() ?? CMTime(seconds: 0, preferredTimescale: 1000000))
-                                            
-                                            let a = TimeInterval(Float64(x))
-                                            let max = CMTimeGetSeconds(player!.currentItem!.asset.duration)
-                                            
-//                                            print(136, round(x), round(max))
-                                            
-                                            let minutes = Int(round(x) / 60)
-                                            let seconds = Int(round(x)) - (minutes * 60)
-                                            
-                                            if seconds < 10 {
-                                                self.songIncrement = "\(minutes):0\(seconds)"
-                                            } else {
-                                                self.songIncrement = "\(minutes):\(seconds)"
-                                            }
-                                            
-                                            if round(x) >= round(max) {
-                                                playValue = 0.0
-                                                play(url: NSURL(string: self.songS3URL)!)
-                                            } else {
-                                                self.playValue = a
-                                            }
-                                            
-                                            let duration = Int(CMTimeGetSeconds(player!.currentItem!.asset.duration))
-                                        
-                                            let minutesx = Int(duration / 60)
-                                            let secondsx = duration - (minutesx * 60)
-                                            
-                                            if secondsx < 10 {
-                                                self.songDuration = "\(minutesx):0\(secondsx)"
-                                            } else {
-                                                self.songDuration = "\(minutesx):\(secondsx)"
-                                            }
+                                                let minutesx = Int(duration / 60)
+                                                let secondsx = duration - (minutesx * 60)
+                                                
+                                                if secondsx < 10 {
+                                                    self.songDuration = "\(minutesx):0\(secondsx)"
+                                                } else {
+                                                    self.songDuration = "\(minutesx):\(secondsx)"
+                                                }
 
-                                        } else {
-                                            isPlaying = false
+                                            } else {
+                                                isPlaying = false
+                                            }
                                         }
                                     }
                 Spacer()
@@ -229,7 +234,7 @@ struct SheetView: View {
         }
 
     
-}
+    }
  
     func play(url:NSURL) {
         print("playing \(url)")

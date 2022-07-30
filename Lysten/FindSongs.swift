@@ -37,7 +37,7 @@ struct FindSongs: View {
                         Spacer()
                     }
                     HStack {
-                        Text("3. Copy the video link and paste it in Lysten").foregroundColor(Color.white)
+                        Text("3. Paste video link into Lysten and search").foregroundColor(Color.white)
                         Spacer()
                     }
                         
@@ -188,6 +188,8 @@ struct SongView: View {
     
     @State var songDuration = ""
     
+    @State var songIncrement: String = ""
+    
     @State var playValue: TimeInterval = 0.0
     
     @State var saved = false
@@ -206,52 +208,84 @@ struct SongView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
             
-            Slider(value: $playValue, in: TimeInterval(0.0)...(CMTimeGetSeconds(player?.currentItem?.asset.duration ?? CMTime(seconds: 1, preferredTimescale: 1000000))), onEditingChanged: { _ in
-                        if isPlaying == true {
-                                pauseSounds()
-                            player?.seek(to: CMTime(seconds: playValue, preferredTimescale: 1000000))
-                        }
-                        
-                        if isPlaying == false {
-                            player!.play()
-                            isPlaying = true
-                        }
-                    })
-                        .onReceive(timer) { _ in
+            HStack {
+                Spacer()
+                
+                
+              
+            Slider(value: $playValue, in: TimeInterval(0.0)...(CMTimeGetSeconds(player?.currentItem?.asset.duration ?? CMTime(seconds: 1, preferredTimescale: 1000000)))) {
+                Text("song")
+            } minimumValueLabel: {
+               Text(self.songIncrement)
+           }
+           maximumValueLabel: {
+               Text(self.songDuration)
+           }
+           onEditingChanged: { _ in
+               if isPlaying == true {
+                      pauseSounds()
+                  player?.seek(to: CMTime(seconds: playValue, preferredTimescale: 1000000))
+              }
+              
+              if isPlaying == false {
+                  player!.play()
+                  isPlaying = true
+              }
+           }
+          .onReceive(timer) { _ in
 
-                            if isPlaying {
-                                
-                                let x = CMTimeGetSeconds(player?.currentTime() ?? CMTime(seconds: 0, preferredTimescale: 1000000))
-                                
-                                let a = TimeInterval(Float64(x))
-                                print(x,a)
-                                
-                                let max = CMTimeGetSeconds(player!.currentItem!.asset.duration)
-                                print(max)
-                                if x >= max {
-                                    playValue = 0.0
-                                    isPlaying = false
-                                } else {
-                                    self.playValue = a
-                                }
+              DispatchQueue.main.async {
+                  if isPlaying {
+                      
+                      let x = CMTimeGetSeconds(player?.currentTime() ?? CMTime(seconds: 0, preferredTimescale: 1000000))
+                      
+                      let a = TimeInterval(Float64(x))
+                      let max = CMTimeGetSeconds(player!.currentItem!.asset.duration)
+                      
+                      print(136, round(x), round(max))
+                      
+                      let minutes = Int(round(x) / 60)
+                      let seconds = Int(round(x)) - (minutes * 60)
+                      
+                      if seconds < 10 {
+                          self.songIncrement = "\(minutes):0\(seconds)"
+                      } else {
+                          self.songIncrement = "\(minutes):\(seconds)"
+                      }
+                      
+                      if round(x) >= round(max) {
+                          playValue = 0.0
+                          isPlaying = false
+                      } else {
+                          self.playValue = a
+                      }
+                      
+                      let duration = Int(CMTimeGetSeconds(player!.currentItem!.asset.duration))
+                  
+                      let minutesx = Int(duration / 60)
+                      let secondsx = duration - (minutesx * 60)
+                      
+                      if secondsx < 10 {
+                          self.songDuration = "\(minutesx):0\(secondsx)"
+                      } else {
+                          self.songDuration = "\(minutesx):\(secondsx)"
+                      }
 
-                            } else {
-                                isPlaying = false
-                                
-                                print("what the hell")
-                            }
+                  } else {
+                      isPlaying = false
+                  }
+              }
                         }
    
+                Spacer()
+            }
+            
             HStack {
                 VStack {
-                    Label(videoTitle.replacingOccurrences(of: ".mp3", with: ""), systemImage: "music.note")
+                    Label(videoTitle.replacingOccurrences(of: ".mp3", with: "").replacingOccurrences(of: "_", with: " "), systemImage: "music.note")
                         .fixedSize(horizontal: false, vertical: true)
                         .font(.system(.body, design: .rounded))
                         .foregroundColor(.white)
-                    Text(self.songDuration)
-                        .font(.system(.headline, design: .rounded))
-                        .foregroundColor(.white)
-                        .padding()
                 }.padding()
             }
             
@@ -340,18 +374,7 @@ struct SongView: View {
            }
             
             player!.play()
-            
-            let duration = Int(CMTimeGetSeconds(player!.currentItem!.asset.duration))
-            print(duration)
-            
-            let minutes = Int(duration / 60)
-            let seconds = duration - (minutes * 60)
-            
-            if seconds < 10 {
-                self.songDuration = "\(minutes):0\(seconds)"
-            } else {
-                self.songDuration = "\(minutes):\(seconds)"
-            }
+         
             
             self.isPlaying = true
             
