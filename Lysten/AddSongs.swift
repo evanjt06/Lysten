@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import AVKit
+import ObjectiveC
 import Combine
 
 struct AddSongs: View {
@@ -21,7 +22,9 @@ struct AddSongs: View {
     @State var songS3URL = ""
     @State var videoTitle = ""
     
-    @State var player: AVPlayer?
+    @State var player: AVQueuePlayer = AVQueuePlayer()
+    @State var playerLayer: AVPlayerLayer?
+    @State var playerLooper: AVPlayerLooper?
     @State var playerItem: AVPlayerItem?
     
     @State var isPlaying = false
@@ -54,9 +57,9 @@ struct AddSongs: View {
                                     
                                     // stop playing lmfao
                                     if videoTitle != record.title && isPlaying {
-                                        self.player!.pause()
+                                        self.player.pause()
                                         self.isPlaying = false
-                                        player?.seek(to: CMTime(seconds: playValue, preferredTimescale: 1000000))
+                                        player.seek(to: CMTime(seconds: playValue, preferredTimescale: 1000000))
                                         playValue = 0.0
                                     }
                                     
@@ -83,7 +86,7 @@ struct AddSongs: View {
             }
             .padding().navigationBarTitle("Your playlist")
             .sheet(isPresented: $showingSheet) {
-                SheetView(songS3URL: self.$songS3URL, videoTitle: self.$videoTitle, player: self.$player, playerItem: self.$playerItem, isPlaying: self.$isPlaying, playValue: self.$playValue, timer: timer)
+                SheetView(songS3URL: self.$songS3URL, videoTitle: self.$videoTitle, player: self.$player, playerItem: self.$playerItem, playerLayer: self.$playerLayer, playerLooper: self.$playerLooper, isPlaying: self.$isPlaying, playValue: self.$playValue, timer: timer)
                     }
             
             Spacer()
@@ -97,8 +100,10 @@ struct SheetView: View {
     @Binding var songS3URL: String
     @Binding var videoTitle: String
     
-    @Binding var player: AVPlayer?
+    @Binding var player: AVQueuePlayer
     @Binding var playerItem: AVPlayerItem?
+    @Binding var playerLayer: AVPlayerLayer?
+    @Binding var playerLooper: AVPlayerLooper?
     
     @Binding var isPlaying: Bool
     
@@ -121,7 +126,7 @@ struct SheetView: View {
             
             HStack {
                 Spacer()
-                        Slider(value: $playValue, in: TimeInterval(0.0)...(CMTimeGetSeconds(player?.currentItem?.asset.duration ?? CMTime(seconds: 1, preferredTimescale: 1000000)))) {
+                        Slider(value: $playValue, in: TimeInterval(0.0)...(CMTimeGetSeconds(player.currentItem?.asset.duration ?? CMTime(seconds: 1, preferredTimescale: 1000000)))) {
                             Text("Song")
                         } minimumValueLabel: {
                             Text(self.songIncrement)
@@ -132,7 +137,7 @@ struct SheetView: View {
                         onEditingChanged: { _ in
                             if isPlaying == true {
                                     pauseSounds()
-                                player?.seek(to: CMTime(seconds: playValue, preferredTimescale: 1000000))
+                                player.seek(to: CMTime(seconds: playValue, preferredTimescale: 1000000))
                             }
                             
                             if isPlaying == false {
@@ -142,39 +147,38 @@ struct SheetView: View {
                                 isPlaying = true
                             }
                         }
+                        .disabled(true)
                                     .onReceive(timer) { _ in
 
-                                        DispatchQueue.main.async {
+                                        if player.currentItem != nil {
                                             if isPlaying {
-                                                
-                                                let x = CMTimeGetSeconds(player?.currentTime() ?? CMTime(seconds: 0, preferredTimescale: 1000000))
-                                                
+                                              
+                                                let x = CMTimeGetSeconds(player.currentTime() ?? CMTime(seconds: 0, preferredTimescale: 1000000))
+
                                                 let a = TimeInterval(Float64(x))
-                                                let max = CMTimeGetSeconds(player!.currentItem!.asset.duration)
-                                                
-                                                print(136, round(x), round(max))
-                                                
+                                                let max = CMTimeGetSeconds(player.currentItem!.asset.duration)
+
                                                 let minutes = Int(round(x) / 60)
                                                 let seconds = Int(round(x)) - (minutes * 60)
-                                                
+
                                                 if seconds < 10 {
                                                     self.songIncrement = "\(minutes):0\(seconds)"
                                                 } else {
                                                     self.songIncrement = "\(minutes):\(seconds)"
                                                 }
-                                                
+
                                                 if round(x) >= round(max) {
                                                     playValue = 0.0
                                                     play(url: NSURL(string: self.songS3URL)!)
                                                 } else {
                                                     self.playValue = a
                                                 }
-                                                
-                                                let duration = Int(CMTimeGetSeconds(player!.currentItem!.asset.duration))
-                                            
+
+                                                let duration = Int(CMTimeGetSeconds(player.currentItem!.asset.duration))
+
                                                 let minutesx = Int(duration / 60)
                                                 let secondsx = duration - (minutesx * 60)
-                                                
+
                                                 if secondsx < 10 {
                                                     self.songDuration = "\(minutesx):0\(secondsx)"
                                                 } else {
@@ -244,9 +248,14 @@ struct SheetView: View {
          
             playerItem = AVPlayerItem(url: url as URL)
 
-            self.player = try! AVPlayer(playerItem:playerItem)
-            player!.volume = 1.0
-            player?.seek(to: CMTime(seconds: playValue, preferredTimescale: 1000000))
+//            self.player = try! AVPlayer(playerItem:playerItem)
+//            player!.volume = 1.0
+//            player?.seek(to: CMTime(seconds: playValue, preferredTimescale: 1000000))
+            
+            player = AVQueuePlayer()
+            playerLayer = AVPlayerLayer(player: player)
+//
+            playerLooper = AVPlayerLooper(player: player, templateItem: playerItem!)
         
             
             let audioSession = AVAudioSession.sharedInstance()
@@ -257,9 +266,13 @@ struct SheetView: View {
                
            }
             
-            player!.play()
+            player.play()
             
-            self.isPlaying = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Change `2.0` to the desired number of seconds.
+                print("READY")
+                self.isPlaying = true
+            }
+           
             
             print("done")
         } catch let error as NSError {
@@ -270,7 +283,7 @@ struct SheetView: View {
     }
     
     func pauseSounds() {
-        self.player!.pause()
+        self.player.pause()
         self.isPlaying = false
     }
     
