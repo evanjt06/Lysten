@@ -21,6 +21,8 @@ struct FindSongs: View {
     
     @State var isLoading = false
     
+    @State var status = ""
+    
     var body: some View {
         ZStack {
             Color.init(red: 30/255, green: 37/255, blue: 84/255).ignoresSafeArea(.all)
@@ -80,10 +82,19 @@ struct FindSongs: View {
                             return
                         }
                         
+                        isLoading = true
                        
                         if textLink.contains("https://www.youtube.com/watch?v=") {
                             temp = textLink.replacingOccurrences(of: "https://www.youtube.com/watch?v=", with: "")
 
+                            // check for -
+                            if temp.prefix(1) == "-" {
+                                status = "Error processing URL. Find another video."
+                                return
+                            }
+                            
+                            status = "Song is loading..."
+                            
                             sendApiCall(urlString: temp)
 
                             print(temp)
@@ -93,22 +104,36 @@ struct FindSongs: View {
 
                             temp = textLink.replacingOccurrences(of: "https://youtu.be/", with: "").replacingOccurrences(of: "?list=", with: " ")
                             let tt = temp.split(separator: " ")
-
-                            print(tt[0])
-
                             temp = String(tt[0])
-                            sendApiCall(urlString: String(tt[0]))
+                            
+                            // check for -
+                            if temp.prefix(1) == "-" {
+                                status = "Error processing URL. Find another video."
+                                return
+                            }
+                            
+                            status = "Song is loading..."
+
+                            
+                            sendApiCall(urlString: temp)
                         } else if textLink.contains("https://youtu.be/") {
                             temp = textLink.replacingOccurrences(of: "https://youtu.be/", with: "")
 
-                            print(temp)
+                            // check for -
+                            if temp.prefix(1) == "-" {
+                                status = "Error processing URL. Find another video."
+                                return
+                            }
+                            
+                            status = "Song is loading..."
+                            
                             sendApiCall(urlString: temp)
                         }
                         
 
                         
                         textLink = ""
-                        
+                    // https://www.youtube.com/watch?v=----asdasd
                         
                     }) {
                         Image(systemName: "magnifyingglass")
@@ -116,17 +141,16 @@ struct FindSongs: View {
                             .accentColor(.white)
                     }
                 }.padding(10)
-                    
                 
                 Spacer()
                 
-                if isLoading {
-                    Text("Song is still loading...")
-                        .font(.title)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                } else if isLoading == false && vidTitle != "" && temp != "" {
+                Text(self.status)
+                    .font(.title)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                
+               if !isLoading && vidTitle != "" && temp != "" {
                     SongView(songRecordArray: $songRecordArray, cml: temp, videoTitle: vidTitle, date: Date())
                 }
                 
@@ -165,6 +189,7 @@ struct FindSongs: View {
                     
                     self.vidTitle = dataString
                     self.isLoading = false
+                    self.status = ""
                 }
         }
         task.resume()
@@ -336,9 +361,9 @@ struct SongView: View {
                     do {
                        try self.viewContext.save()
 
-                       print("playlist shit SAVED")
+                       print("SAVED")
                    } catch {
-                       print("280 shit - \(error.localizedDescription)")
+                       print("\(error.localizedDescription)")
                    }
                     
                     saved = true
