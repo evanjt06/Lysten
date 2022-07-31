@@ -17,7 +17,7 @@ struct FindSongs: View {
     
     @State var textLink = ""
     @State var vidTitle = ""
-    @State var temp = ""
+    @State var temp: String = ""
     
     @State var isLoading = false
     
@@ -78,7 +78,7 @@ struct FindSongs: View {
                     Button(action: {
                         
                         if textLink == "" {
-                            print("EMPTY")
+                            status = "Please provide a link."
                             return
                         }
                         
@@ -98,8 +98,27 @@ struct FindSongs: View {
                             sendApiCall(urlString: temp)
 
                             print(temp)
+                            
+                            // https://m.youtube.com/watch?v=Z3W0jKcv1SU&t=178s#dialog
+                            // Z3W0jKcv1SU
 
 
+                        } else if textLink.contains("https://m.youtube.com/watch?v=") {
+                            
+                            temp = String(textLink.replacingOccurrences(of: "https://m.youtube.com/watch?v=", with: "").prefix(11))
+                            print(temp)
+                            
+                            // check for -
+                            if temp.prefix(1) == "-" {
+                                status = "Error processing URL. Find another video."
+                                return
+                            }
+                            
+                            status = "Song is loading..."
+
+                            
+                            sendApiCall(urlString: temp)
+                            
                         } else if textLink.contains("https://youtu.be/") && textLink.contains("?list=") {
 
                             temp = textLink.replacingOccurrences(of: "https://youtu.be/", with: "").replacingOccurrences(of: "?list=", with: " ")
@@ -128,9 +147,9 @@ struct FindSongs: View {
                             status = "Song is loading..."
                             
                             sendApiCall(urlString: temp)
+                        } else {
+                            status = "Invalid URL"
                         }
-                        
-
                         
                         textLink = ""
                     // https://www.youtube.com/watch?v=----asdasd
@@ -346,9 +365,19 @@ struct SongView: View {
                         return
                     }
                     
-                    let sr = SongRecord(name: videoTitle, duration: songDuration, linkToS3: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3")
+                    // get song duration when user doesnt play song
+                    let x = AVPlayerItem(url: NSURL(string: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3")! as URL)
+                    let xplayer: AVPlayer? = try! AVPlayer(playerItem: x)
+                    let duration = Int(CMTimeGetSeconds(xplayer!.currentItem!.asset.duration))
+                
+                    let minutesx = Int(duration / 60)
+                    let secondsx = duration - (minutesx * 60)
                     
-                    songRecordArray.append(sr)
+                    if secondsx < 10 {
+                        self.songDuration = "\(minutesx):0\(secondsx)"
+                    } else {
+                        self.songDuration = "\(minutesx):\(secondsx)"
+                    }
                     
 //                  replace this with core data
                     let playlist: PlayMusic
@@ -357,7 +386,7 @@ struct SongView: View {
                     playlist.title = videoTitle
                     playlist.duration = songDuration
                     playlist.date = date
-                    
+                 
                     do {
                        try self.viewContext.save()
 

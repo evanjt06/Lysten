@@ -114,6 +114,10 @@ struct SheetView: View {
     var timer: Publishers.Autoconnect<Timer.TimerPublisher> =  Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
+        
+        ZStack {
+            Color.init(red: 30/255, green: 37/255, blue: 84/255).ignoresSafeArea(.all)
+        
         VStack {
             
             Image("m")
@@ -196,7 +200,8 @@ struct SheetView: View {
                 VStack {
                     Label(self.videoTitle.replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ".mp3", with: ""), systemImage: "music.note")
                         .fixedSize(horizontal: false, vertical: true)
-                        .font(.system(.body, design: .rounded))
+                        .font(.system(.title3, design: .rounded))
+                        .foregroundColor(Color.white)
                 }.padding()
             }
             
@@ -234,6 +239,9 @@ struct SheetView: View {
                
             }.padding(15)
         }
+        // https://www.youtube.com/watch?v=Rf-ctwR7P-M
+        
+    }
 
     
     }
