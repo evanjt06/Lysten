@@ -31,8 +31,11 @@ struct AddSongs: View {
     
     @State var playValue: TimeInterval = 0.0
     
+    @State var currentSongPlaying = "null"
+    
     var body: some View {
-        ZStack {
+        
+        return ZStack {
             Color.init(red: 30/255, green: 37/255, blue: 84/255).ignoresSafeArea(.all)
             
             
@@ -40,14 +43,22 @@ struct AddSongs: View {
                 
                 List {
                     ForEach(self.data) { record in
+                        
+                        HStack {
                             
-                              HStack {
-                                Text(record.title.replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ".mp3", with: ""))
-                                        .font(.headline)
-                                    Spacer()
-                                  Text(record.duration)
+                            if (currentSongPlaying == record.link) {
+                               Label("", systemImage: "waveform")
+                                    .font(Font.title2)
+                            }
+                                
+                              Text(record.title.replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ".mp3", with: ""))
+                                      .font(.headline)
+                                  Spacer()
+                                Text(record.duration)
+                                
+                               
                                 }
-                              .background(colorScheme == .light ? Color.white : Color.black.opacity(0.1))
+                        .background(colorScheme == .light ? Color.white : Color.black.opacity(0.04))
                               .padding()
                                 .onTapGesture {
                                     
@@ -80,11 +91,12 @@ struct AddSongs: View {
                                 }
                             })
                 }
-                
+            
             }
+           
             .padding().navigationBarTitle("Your playlist")
             .sheet(isPresented: $showingSheet) {
-                SheetView(songS3URL: self.$songS3URL, videoTitle: self.$videoTitle, player: self.$player, playerItem: self.$playerItem, playerLayer: self.$playerLayer, playerLooper: self.$playerLooper, isPlaying: self.$isPlaying, playValue: self.$playValue)
+                SheetView(songS3URL: self.$songS3URL, videoTitle: self.$videoTitle, player: self.$player, playerItem: self.$playerItem, playerLayer: self.$playerLayer, playerLooper: self.$playerLooper, isPlaying: self.$isPlaying, playValue: self.$playValue, currentSongPlaying: $currentSongPlaying)
                     }
             
             Spacer()
@@ -111,6 +123,8 @@ struct SheetView: View {
     
     @Binding var playValue: TimeInterval
     
+    @Binding  var currentSongPlaying: String
+    
     var timer: Publishers.Autoconnect<Timer.TimerPublisher> =  Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -132,9 +146,11 @@ struct SheetView: View {
                             Text("Song")
                         } minimumValueLabel: {
                             Text(self.songIncrement)
+                                .foregroundColor(Color.white)
                         }
                         maximumValueLabel: {
                             Text(self.songDuration)
+                                .foregroundColor(Color.white)
                         }
                         onEditingChanged: { _ in
                             if isPlaying == true {
@@ -200,8 +216,8 @@ struct SheetView: View {
                 VStack {
                     Label(self.videoTitle.replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ".mp3", with: ""), systemImage: "music.note")
                         .fixedSize(horizontal: false, vertical: true)
-                        .font(.system(.title3, design: .rounded))
                         .foregroundColor(Color.white)
+                        .font(Font.headline.weight(.bold))
                 }.padding()
             }
             
@@ -269,6 +285,9 @@ struct SheetView: View {
            }
           
             player.play()
+            
+            self.currentSongPlaying = url.absoluteString!
+            print(self.currentSongPlaying)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Change `2.0` to the desired number of seconds.
                 print("READY")

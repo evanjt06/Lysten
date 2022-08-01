@@ -9,6 +9,14 @@ import AVFoundation
 import AVKit
 import SwiftUI
 
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
+
 struct FindSongs: View {
     
     @Environment(\.colorScheme) var colorScheme
@@ -152,7 +160,7 @@ struct FindSongs: View {
                         }
                         
                         textLink = ""
-                    // https://www.youtube.com/watch?v=----asdasd
+                        hideKeyboard()
                         
                     }) {
                         Image(systemName: "magnifyingglass")
@@ -168,7 +176,7 @@ struct FindSongs: View {
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
-                
+               
                if !isLoading && vidTitle != "" && temp != "" {
                     SongView(songRecordArray: $songRecordArray, cml: temp, videoTitle: vidTitle, date: Date())
                 }
@@ -253,17 +261,14 @@ struct SongView: View {
                 .aspectRatio(contentMode: .fit)
             
             HStack {
-                Spacer()
-                
-                
-              
+             
             Slider(value: $playValue, in: TimeInterval(0.0)...(CMTimeGetSeconds(player?.currentItem?.asset.duration ?? CMTime(seconds: 1, preferredTimescale: 1000000)))) {
                 Text("song")
             } minimumValueLabel: {
-               Text(self.songIncrement)
+               Text(self.songIncrement) .foregroundColor(Color.white)
            }
            maximumValueLabel: {
-               Text(self.songDuration)
+               Text(self.songDuration) .foregroundColor(Color.white)
            }
            onEditingChanged: { _ in
                if isPlaying == true {
@@ -348,10 +353,21 @@ struct SongView: View {
                     if isPlaying {
                         
                         Label("Pause", systemImage: "pause.fill")
+                            .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                            .foregroundColor(Color.white)
+                            .background(Color.black)
                             .accentColor(.white)
+                            .font(Font.headline.weight(.bold))
+                            .cornerRadius(45)
+                        
                     } else {
                         Label("Play", systemImage: "play.fill")
+                            .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                            .foregroundColor(Color.white)
+                            .background(Color.black)
                             .accentColor(.white)
+                            .font(Font.headline.weight(.bold))
+                            .cornerRadius(45)
                         
                     }
                    
@@ -365,6 +381,7 @@ struct SongView: View {
                         return
                     }
                     
+                    // https://m.youtube.com/watch?v=Z3W0jKcv1SU&t=178s#dialog
                     // get song duration when user doesnt play song
                     let x = AVPlayerItem(url: NSURL(string: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3")! as URL)
                     let xplayer: AVPlayer? = try! AVPlayer(playerItem: x)
@@ -398,8 +415,13 @@ struct SongView: View {
                     saved = true
                     
                 }) {
-                    Label(saved == true ? "Saved song/audio" : "Save song/audio", systemImage: "checkmark")
+                    Label(saved == true ? "Saved song" : "Save song", systemImage: "checkmark")
+                        .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                        .foregroundColor(Color.white)
+                        .background(Color.black)
                         .accentColor(.white)
+                        .font(Font.headline.weight(.bold))
+                        .cornerRadius(45)
                 }
                
             }.padding()
