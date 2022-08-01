@@ -194,6 +194,7 @@ struct SheetView: View {
 
                                              
                                                 self.playValue = a
+                                                print(self.playValue)
                                             
 
                                                 if (player.currentItem?.asset != nil) {
@@ -220,7 +221,7 @@ struct SheetView: View {
 
             HStack {
                 VStack {
-                    Label(self.videoTitle.replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ".mp3", with: ""), systemImage: "music.note")
+                    Label(self.videoTitle.replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ".mp3", with: ""), systemImage: "music.note")
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundColor(Color.white)
                         .font(Font.headline.weight(.bold))
