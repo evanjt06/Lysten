@@ -31,6 +31,10 @@ struct FindSongs: View {
     
     @State var status = ""
     
+    @State private var timeRemaining = 60
+    @State var countdown = Timer.publish(every: 1, on: .main, in: .common)
+    @State private var isCountdownVisible = false
+    
     var body: some View {
         ZStack {
             Color.init(red: 30/255, green: 37/255, blue: 84/255).ignoresSafeArea(.all)
@@ -91,6 +95,10 @@ struct FindSongs: View {
                         }
                         
                         isLoading = true
+                        timeRemaining = 60
+                        countdown = Timer.publish(every: 1, on: .main, in: .common)
+                        countdown.connect()
+                        print("connected...")
                        
                         if textLink.contains("https://www.youtube.com/watch?v=") {
                             temp = textLink.replacingOccurrences(of: "https://www.youtube.com/watch?v=", with: "")
@@ -102,7 +110,8 @@ struct FindSongs: View {
                             }
                             
                             status = "Song is loading..."
-                            
+                            isCountdownVisible = true
+                            temp = String(temp.prefix(11))
                             sendApiCall(urlString: temp)
 
                             print(temp)
@@ -123,7 +132,7 @@ struct FindSongs: View {
                             }
                             
                             status = "Song is loading..."
-
+                            isCountdownVisible = true
                             
                             sendApiCall(urlString: temp)
                             
@@ -140,7 +149,7 @@ struct FindSongs: View {
                             }
                             
                             status = "Song is loading..."
-
+                            isCountdownVisible = true
                             
                             sendApiCall(urlString: temp)
                         } else if textLink.contains("https://youtu.be/") {
@@ -153,7 +162,7 @@ struct FindSongs: View {
                             }
                             
                             status = "Song is loading..."
-                            
+                            isCountdownVisible = true
                             sendApiCall(urlString: temp)
                         } else {
                             status = "Invalid URL"
@@ -176,6 +185,13 @@ struct FindSongs: View {
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
+                if (isCountdownVisible) {
+                    Text("Processing Request: " + String(timeRemaining))
+                        .font(.body)
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
                
                if !isLoading && vidTitle != "" && temp != "" {
                     SongView(songRecordArray: $songRecordArray, cml: temp, videoTitle: vidTitle, date: Date())
@@ -183,6 +199,17 @@ struct FindSongs: View {
                 
             }.navigationBarTitle("Find songs")
             .padding()
+        }.onReceive(countdown) { time in
+            if timeRemaining == 0 {
+                self.status = "Error processing request. Please try another video."
+                isCountdownVisible = false
+                self.countdown.connect().cancel()
+                timeRemaining = 30
+            }
+            if timeRemaining > 0 {
+                timeRemaining -= 1
+                print(timeRemaining)
+            }
         }
     }
 
@@ -200,7 +227,7 @@ struct FindSongs: View {
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
-        request.timeoutInterval = 10000000
+        request.timeoutInterval = 60
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 
@@ -212,11 +239,24 @@ struct FindSongs: View {
          
                 // Convert HTTP Response Data to a String
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                    
+                    
                     print("Response data string:\n \(dataString)")
+                    
+                    if dataString == "\"Video too long\"" {
+                        self.status = "Your selected video is too long to be processed."
+                        self.countdown.connect().cancel()
+                        isCountdownVisible = false
+                        timeRemaining = 60
+                        return
+                    }
                     
                     self.vidTitle = dataString
                     self.isLoading = false
                     self.status = ""
+                    self.countdown.connect().cancel()
+                    isCountdownVisible = false
+                    timeRemaining = 60
                 }
         }
         task.resume()
@@ -245,6 +285,8 @@ struct SongView: View {
     @State var playValue: TimeInterval = 0.0
     
     @State var saved = false
+    
+    @State var isActive = false
     
     var cml: String
     
@@ -277,10 +319,13 @@ struct SongView: View {
               }
               
               if isPlaying == false {
-                  player!.play()
-                  isPlaying = true
+                  if (player != nil) {
+                      player?.play()
+                      isPlaying = true
+                  }
               }
            }
+           .disabled(!isActive)
           .onReceive(timer) { _ in
 
               DispatchQueue.main.async {
@@ -331,7 +376,7 @@ struct SongView: View {
             
             HStack {
                 VStack {
-                    Label(videoTitle.replacingOccurrences(of: ".mp3", with: "").replacingOccurrences(of: "_", with: " "), systemImage: "music.note")
+                    Label(videoTitle.replacingOccurrences(of: ".mp3", with: "").replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "_", with: " "), systemImage: "music.note")
                         .fixedSize(horizontal: false, vertical: true)
                         .font(.system(.body, design: .rounded))
                         .foregroundColor(.white)
@@ -341,6 +386,7 @@ struct SongView: View {
             HStack {
                 
                 Button(action: {
+                    isActive = true
                     if isPlaying {
                         pauseSounds()
                     } else {

@@ -51,7 +51,7 @@ struct AddSongs: View {
                                     .font(Font.title2)
                             }
                                 
-                              Text(record.title.replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ".mp3", with: ""))
+                            Text(record.title.replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ".mp3", with: "").replacingOccurrences(of: "\"", with: ""))
                                       .font(.headline)
                                   Spacer()
                                 Text(record.duration)
