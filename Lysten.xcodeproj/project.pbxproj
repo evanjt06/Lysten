@@ -18,6 +18,7 @@
 		39C45DA826BB6A1A00162F6D /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 39C45DA726BB6A1A00162F6D /* SwiftUIX */; };
 		39C45DAA26BB8B3500162F6D /* FindSongs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C45DA926BB8B3500162F6D /* FindSongs.swift */; };
 		39C45DAC26BB8B5D00162F6D /* AddSongs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C45DAB26BB8B5D00162F6D /* AddSongs.swift */; };
+		39EAED4228987AC80081921D /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EAED4128987AC70081921D /* DownloadManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		39B0707428939CBC00EA9057 /* PlayMusic+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayMusic+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		39C45DA926BB8B3500162F6D /* FindSongs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindSongs.swift; sourceTree = "<group>"; };
 		39C45DAB26BB8B5D00162F6D /* AddSongs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSongs.swift; sourceTree = "<group>"; };
+		39EAED4128987AC70081921D /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				39C45DAB26BB8B5D00162F6D /* AddSongs.swift */,
 				39B0706028938A6C00EA9057 /* Music.xcdatamodeld */,
 				39B0706328938AA800EA9057 /* Persistence.swift */,
+				39EAED4128987AC70081921D /* DownloadManager.swift */,
 			);
 			path = Lysten;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 				39C45DAA26BB8B3500162F6D /* FindSongs.swift in Sources */,
 				39B0706428938AA800EA9057 /* Persistence.swift in Sources */,
 				397F9EA926BB637F00174DB9 /* LystenApp.swift in Sources */,
+				39EAED4228987AC80081921D /* DownloadManager.swift in Sources */,
 				39B0706228938A6C00EA9057 /* Music.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

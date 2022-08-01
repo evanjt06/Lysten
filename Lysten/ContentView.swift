@@ -8,6 +8,20 @@
 import SwiftUI
 import Combine
 
+extension URL {
+    var typeIdentifier: String? { (try? resourceValues(forKeys: [.typeIdentifierKey]))?.typeIdentifier }
+    var isMP3: Bool { typeIdentifier == "public.mp3" }
+    var localizedName: String? { (try? resourceValues(forKeys: [.localizedNameKey]))?.localizedName }
+    var hasHiddenExtension: Bool {
+        get { (try? resourceValues(forKeys: [.hasHiddenExtensionKey]))?.hasHiddenExtension == true }
+        set {
+            var resourceValues = URLResourceValues()
+            resourceValues.hasHiddenExtension = newValue
+            try? setResourceValues(resourceValues)
+        }
+    }
+}
+
 struct ContentView: View {
     
     @State var songRecordArray = [SongRecord]()
@@ -92,6 +106,40 @@ struct ContentView: View {
 
                 }.navigationBarTitle("Lysten")
 
+            }.onAppear {
+                do {
+                    // Get the document directory url
+                    let documentDirectory = try FileManager.default.url(
+                        for: .documentDirectory,
+                        in: .userDomainMask,
+                        appropriateFor: nil,
+                        create: true
+                    )
+                 
+                    let directoryContents = try FileManager.default.contentsOfDirectory(
+                        at: documentDirectory,
+                        includingPropertiesForKeys: nil
+                    )
+                    print("directoryContents:", directoryContents.map { $0.localizedName ?? $0.lastPathComponent })
+                    for url in directoryContents {
+                        print(url.localizedName ?? url.lastPathComponent)
+                    }
+                    
+                    // if you would like to hide the file extension
+                    for var url in directoryContents {
+                        url.hasHiddenExtension = true
+                    }
+                    for url in directoryContents {
+                        print(url.localizedName ?? url.lastPathComponent)
+                    }
+
+                    // if you want to get all mp3 files located at the documents directory:
+                    let mp3s = directoryContents.filter(\.isMP3).map { $0.localizedName ?? $0.lastPathComponent }
+                    print("mp3s:", mp3s)
+                    
+                } catch {
+                    print(error)
+                }
             }
             
         }

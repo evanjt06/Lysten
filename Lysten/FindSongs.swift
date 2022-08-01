@@ -293,6 +293,8 @@ struct SongView: View {
     var videoTitle: String
     var date: Date
     @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    @ObservedObject var downloader = DownloadManager()
   
     var body: some View {
         
@@ -460,14 +462,18 @@ struct SongView: View {
                     
                     saved = true
                     
+                    // download here
+                    downloader.downloadFile(url: cml)
+                    
                 }) {
-                    Label(saved == true ? "Saved song" : "Save song", systemImage: "checkmark")
+                    Label(saved == true ? "Downloaded song" : "Download song", systemImage: "checkmark")
                         .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
                         .foregroundColor(Color.white)
                         .background(Color.black)
                         .accentColor(.white)
                         .font(Font.headline.weight(.bold))
                         .cornerRadius(45)
+                    
                 }
                
             }.padding()

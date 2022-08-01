@@ -13,6 +13,8 @@ import Combine
 
 struct AddSongs: View {
     
+    @ObservedObject var downloader = DownloadManager()
+    
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(fetchRequest: PlayMusic.fetchRequest()) var data: FetchedResults<PlayMusic>
@@ -84,6 +86,8 @@ struct AddSongs: View {
                                 
                                 self.viewContext.delete(di)
                                 
+                                downloader.deleteFile(url: di.link.replacingOccurrences(of: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/", with: ""))
+                                
                                 do {
                                     try self.viewContext.save()
                                 } catch {
@@ -106,6 +110,8 @@ struct AddSongs: View {
 }
 
 struct SheetView: View {
+    
+    @ObservedObject var downloader = DownloadManager()
     
     @Binding var songS3URL: String
     @Binding var videoTitle: String
@@ -264,41 +270,87 @@ struct SheetView: View {
  
     func play(url:NSURL) {
         print("playing \(url)")
+        
+//        check if the URL is downloaded locally
+        downloader.checkFileExists(url: url.absoluteString!.replacingOccurrences(of: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/", with: ""))
+        if downloader.isDownloaded {
+            print("IT IS DOWNLAODED!")
+            // get from main local bundle
+            do {
 
-        do {
-
-         
-            playerItem = AVPlayerItem(url: url as URL)
-            
-            player = AVQueuePlayer()
-            
-            playerLayer = AVPlayerLayer(player: player)
-//
-            playerLooper = AVPlayerLooper(player: player, templateItem: playerItem!)
-            
-            let audioSession = AVAudioSession.sharedInstance()
-           
-           do {
-               try audioSession.setCategory(AVAudioSession.Category.playback)
-           } catch {
+             
+                let pitem = downloader.getVideoFileAsset(url: url.absoluteString!.replacingOccurrences(of: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/", with: ""))
+                
+                player = AVQueuePlayer()
+                
+                playerLayer = AVPlayerLayer(player: player)
+    //
+                playerLooper = AVPlayerLooper(player: player, templateItem: pitem!)
+                
+                let audioSession = AVAudioSession.sharedInstance()
                
-           }
-          
-            player.play()
-            
-            self.currentSongPlaying = url.absoluteString!
-            print(self.currentSongPlaying)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Change `2.0` to the desired number of seconds.
-                print("READY")
-                self.isPlaying = true
+               do {
+                   try audioSession.setCategory(AVAudioSession.Category.playback)
+               } catch {
+                   
+               }
+              
+                player.play()
+                
+                self.currentSongPlaying = url.absoluteString!
+                print(self.currentSongPlaying)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Change `2.0` to the desired number of seconds.
+                    print("READY 2")
+                    self.isPlaying = true
+                }
+              
+            } catch let error as NSError {
+                print("EE" + error.localizedDescription)
+            } catch {
+                print("AVAudioPlayer init failed")
             }
-          
-        } catch let error as NSError {
-            print("EE" + error.localizedDescription)
-        } catch {
-            print("AVAudioPlayer init failed")
         }
+            
+     
+        if !downloader.isDownloaded {
+            print("IT IS NOT DOWNLAODED!")
+            do {
+
+             
+                playerItem = AVPlayerItem(url: url as URL)
+                
+                player = AVQueuePlayer()
+                
+                playerLayer = AVPlayerLayer(player: player)
+    //
+                playerLooper = AVPlayerLooper(player: player, templateItem: playerItem!)
+                
+                let audioSession = AVAudioSession.sharedInstance()
+               
+               do {
+                   try audioSession.setCategory(AVAudioSession.Category.playback)
+               } catch {
+                   
+               }
+              
+                player.play()
+                
+                self.currentSongPlaying = url.absoluteString!
+                print(self.currentSongPlaying)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Change `2.0` to the desired number of seconds.
+                    print("READY")
+                    self.isPlaying = true
+                }
+              
+            } catch let error as NSError {
+                print("EE" + error.localizedDescription)
+            } catch {
+                print("AVAudioPlayer init failed")
+            }
+        }
+
     }
     
     func pauseSounds() {
