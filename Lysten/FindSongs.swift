@@ -32,7 +32,7 @@ struct FindSongs: View {
     @State var status = ""
     @State var isTiktokSong = false
     
-    @State private var timeRemaining = 60
+    @State private var timeRemaining = 90
     @State var countdown = Timer.publish(every: 1, on: .main, in: .common)
     @State private var isCountdownVisible = false
     
@@ -123,7 +123,7 @@ struct FindSongs: View {
                         }
                         
                         isLoading = true
-                        timeRemaining = 60
+                        timeRemaining = 90
                         countdown = Timer.publish(every: 1, on: .main, in: .common)
                         countdown.connect()
                         print("connected...")
@@ -201,7 +201,7 @@ struct FindSongs: View {
                             isCountdownVisible = true
                             sendApiCall(urlString: temp)
                         } else {
-                            status = "Invalid URL"
+                            status = "Please find another video."
                         }
                         
                         textLink = ""
@@ -240,7 +240,7 @@ struct FindSongs: View {
                 self.status = "Error processing request. Please try another video."
                 isCountdownVisible = false
                 self.countdown.connect().cancel()
-                timeRemaining = 30
+                timeRemaining = 90
             }
             if timeRemaining > 0 {
                 timeRemaining -= 1
@@ -262,7 +262,7 @@ struct FindSongs: View {
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
-        request.timeoutInterval = 60
+        request.timeoutInterval = 90
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 
@@ -282,7 +282,7 @@ struct FindSongs: View {
                         self.status = "Your selected video is too long to be processed."
                         self.countdown.connect().cancel()
                         isCountdownVisible = false
-                        timeRemaining = 60
+                        timeRemaining = 90
                         return
                     }
                     
@@ -291,7 +291,7 @@ struct FindSongs: View {
                     self.status = ""
                     self.countdown.connect().cancel()
                     isCountdownVisible = false
-                    timeRemaining = 60
+                    timeRemaining = 90
                 }
         }
         task.resume()
@@ -313,7 +313,7 @@ struct FindSongs: View {
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
-        request.timeoutInterval = 60
+        request.timeoutInterval = 90
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 
@@ -334,7 +334,7 @@ struct FindSongs: View {
                     self.status = ""
                     self.countdown.connect().cancel()
                     isCountdownVisible = false
-                    timeRemaining = 60
+                    timeRemaining = 90
                     isTiktokSong = true
                 }
         }
