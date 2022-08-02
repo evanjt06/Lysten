@@ -11,13 +11,13 @@ import AVKit
 import ObjectiveC
 import Combine
 
-struct AddSongs: View {
+struct TiktokView: View {
     
     @ObservedObject var downloader = DownloadManager()
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(fetchRequest: PlayMusic.fetchRequest()) var data: FetchedResults<PlayMusic>
+    @FetchRequest(fetchRequest: TiktokSongs.fetchRequest()) var data: FetchedResults<TiktokSongs>
     
     @State var showingSheet = false
     
@@ -98,9 +98,9 @@ struct AddSongs: View {
             
             }
            
-            .padding().navigationBarTitle("Your Youtube playlist")
+            .padding().navigationBarTitle("Your Tiktok Playlist")
             .sheet(isPresented: $showingSheet) {
-                SheetView(songS3URL: self.$songS3URL, videoTitle: self.$videoTitle, player: self.$player, playerItem: self.$playerItem, playerLayer: self.$playerLayer, playerLooper: self.$playerLooper, isPlaying: self.$isPlaying, playValue: self.$playValue, currentSongPlaying: $currentSongPlaying)
+                SheetView2(songS3URL: self.$songS3URL, videoTitle: self.$videoTitle, player: self.$player, playerItem: self.$playerItem, playerLayer: self.$playerLayer, playerLooper: self.$playerLooper, isPlaying: self.$isPlaying, playValue: self.$playValue, currentSongPlaying: $currentSongPlaying)
                     }
             
             Spacer()
@@ -109,7 +109,8 @@ struct AddSongs: View {
     
 }
 
-struct SheetView: View {
+
+struct SheetView2: View {
     
     @ObservedObject var downloader = DownloadManager()
     

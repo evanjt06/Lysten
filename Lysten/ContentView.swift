@@ -28,7 +28,7 @@ struct ContentView: View {
     
     init() {
             //Use this if NavigationBarTitle is with Large Font
-        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Copperplate", size: 45)!, .foregroundColor: UIColor.white]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Copperplate", size: 30)!, .foregroundColor: UIColor.white]
 
         }
     
@@ -49,9 +49,10 @@ struct ContentView: View {
                                             .foregroundColor(.white)
                                             .font(.title)
                                             .bold()
-                                        Text("Use Youtube to find your favorite songs!")
+                                        Text("Use Youtube and Tiktok to find your favorite songs!")
                                             .foregroundColor(.white)
                                             .font(.subheadline)
+                                            .multilineTextAlignment(.leading)
                                             .foregroundColor(Color.secondary)
                                         
                                         HStack {
@@ -77,10 +78,15 @@ struct ContentView: View {
                             VStack(alignment: .trailing ) {
                                 HStack(alignment: .top){
                                     VStack(alignment: .leading) {
-                                        Text("View songs in playlist")
+                                        Text("Your YouTube Playlist")
                                             .foregroundColor(.white)
                                             .font(.title)
                                             .bold()
+                                        Text("Play songs straight from YouTube!")
+                                            .foregroundColor(.white)
+                                            .font(.subheadline)
+                                            .multilineTextAlignment(.leading)
+                                            .foregroundColor(Color.secondary)
                                         
                                         HStack {
                                             Spacer()
@@ -97,6 +103,41 @@ struct ContentView: View {
                             }
                             .frame(width: UIScreen.main.bounds.width - 40, height: 280)
                             .background(LinearGradient(gradient: Gradient(colors: [Color("C3"), Color("C2")]), startPoint: .top, endPoint: .bottomTrailing))
+                            .cornerRadius(20)
+                            .shadow(radius: 12)
+                            .padding(.bottom, 20)
+                        }
+                        
+                        NavigationLink(destination: TiktokView()) {
+                            VStack(alignment: .trailing ) {
+                                HStack(alignment: .top){
+                                    VStack(alignment: .leading) {
+                                        Text("Your Tiktok Playlist")
+                                            .foregroundColor(.white)
+                                            .font(.title)
+                                            .bold()
+                                        Text("Play audios straight from TikTok!")
+                                            .foregroundColor(.white)
+                                            .font(.subheadline)
+                                            .multilineTextAlignment(.leading)
+                                            .foregroundColor(Color.secondary)
+                                        
+                                        
+                                        HStack {
+                                            Spacer()
+                                        Image("b")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            Spacer()
+                                        }
+                                            
+                                    }.padding(.horizontal, 0)
+                                    Spacer()
+                                }.padding()
+                                Spacer()
+                            }
+                            .frame(width: UIScreen.main.bounds.width - 40, height: 280)
+                            .background(LinearGradient(gradient: Gradient(colors: [Color("C5"), Color("C4")]), startPoint: .top, endPoint: .bottomTrailing))
                             .cornerRadius(20)
                             .shadow(radius: 12)
                             .padding(.bottom, 20)
@@ -120,19 +161,12 @@ struct ContentView: View {
                         at: documentDirectory,
                         includingPropertiesForKeys: nil
                     )
-                    print("directoryContents:", directoryContents.map { $0.localizedName ?? $0.lastPathComponent })
-                    for url in directoryContents {
-                        print(url.localizedName ?? url.lastPathComponent)
-                    }
-                    
+                 
                     // if you would like to hide the file extension
                     for var url in directoryContents {
                         url.hasHiddenExtension = true
                     }
-                    for url in directoryContents {
-                        print(url.localizedName ?? url.lastPathComponent)
-                    }
-
+                 
                     // if you want to get all mp3 files located at the documents directory:
                     let mp3s = directoryContents.filter(\.isMP3).map { $0.localizedName ?? $0.lastPathComponent }
                     print("mp3s:", mp3s)

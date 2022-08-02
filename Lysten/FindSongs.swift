@@ -30,6 +30,7 @@ struct FindSongs: View {
     @State var isLoading = false
     
     @State var status = ""
+    @State var isTiktokSong = false
     
     @State private var timeRemaining = 60
     @State var countdown = Timer.publish(every: 1, on: .main, in: .common)
@@ -43,11 +44,11 @@ struct FindSongs: View {
                 
                 VStack {
                     HStack {
-                        Text("1. Open YouTube App").foregroundColor(Color.white)
+                        Text("1. Open YouTube/Tiktok App").foregroundColor(Color.white)
                         Spacer()
                     }
                     HStack {
-                        Text("2. Search up a music video").foregroundColor(Color.white)
+                        Text("2. Search up a music video/Tiktok audio").foregroundColor(Color.white)
                         Spacer()
                     }
                     HStack {
@@ -66,9 +67,36 @@ struct FindSongs: View {
                     
                     HStack {
                         Text("Use YouTube")
-                        Image("yt")
+                        Image(systemName: "video")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
+                            .accentColor(Color.black)
+                            .foregroundColor(Color.black)
+                            .frame(width: 30, height: 30)
+                           
+                    }.font(.system(.headline, design: .rounded))
+                    .frame(width: UIScreen.main.bounds.width - 30, height: 40)
+                    .background(Color.init(red: 60/255, green: 114/255, blue: 201/255))
+                    .foregroundColor(.white)
+                    .cornerRadius(13)
+                }
+                .padding(2)
+                
+                Button(action: {
+                  
+                    let url = URL (string: "https://www.tiktok.com")!
+                     UIApplication.shared.open (url)
+                    
+                }) {
+                    
+                    HStack {
+                        Text("Use Tiktok")
+                        Image(systemName: "airpodsmax")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .accentColor(Color.black)
+                            .foregroundColor(Color.black)
+                            .frame(width: 30, height: 30)
                            
                     }.font(.system(.headline, design: .rounded))
                     .frame(width: UIScreen.main.bounds.width - 30, height: 40)
@@ -99,8 +127,16 @@ struct FindSongs: View {
                         countdown = Timer.publish(every: 1, on: .main, in: .common)
                         countdown.connect()
                         print("connected...")
-                       
-                        if textLink.contains("https://www.youtube.com/watch?v=") {
+                        
+                        if textLink.contains("https://www.tiktok.com/t/") {
+                            
+                            temp = textLink.replacingOccurrences(of: "https://www.tiktok.com/t/", with: "").replacingOccurrences(of: "/?k=1", with: "")
+                            status = "Song is loading..."
+                            isCountdownVisible = true
+                            sendApiCall_Tiktok(urlString: textLink)
+
+                            print(temp)
+                        } else if textLink.contains("https://www.youtube.com/watch?v=") {
                             temp = textLink.replacingOccurrences(of: "https://www.youtube.com/watch?v=", with: "")
 
                             // check for -
@@ -194,7 +230,7 @@ struct FindSongs: View {
                 }
                
                if !isLoading && vidTitle != "" && temp != "" {
-                    SongView(songRecordArray: $songRecordArray, cml: temp, videoTitle: vidTitle, date: Date())
+                   SongView(songRecordArray: $songRecordArray, cml: temp, videoTitle: vidTitle, date: Date(), isTiktokSong: isTiktokSong)
                 }
                 
             }.navigationBarTitle("Find songs")
@@ -208,7 +244,6 @@ struct FindSongs: View {
             }
             if timeRemaining > 0 {
                 timeRemaining -= 1
-                print(timeRemaining)
             }
         }
     }
@@ -263,6 +298,50 @@ struct FindSongs: View {
         
         
     }
+    
+    
+    func sendApiCall_Tiktok(urlString: String) {
+        
+        if urlString == "" {
+            return
+        }
+        
+        self.isLoading = true
+        
+        let url = URL(string: "http://50.18.240.5:8080/uploadTiktok?q=" + urlString)
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        request.timeoutInterval = 60
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
+                // Check for Error
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+         
+                // Convert HTTP Response Data to a String
+                if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                    
+                    
+                    print("Response data string:\n \(dataString)")
+                    
+                    self.vidTitle = dataString
+                    self.isLoading = false
+                    self.status = ""
+                    self.countdown.connect().cancel()
+                    isCountdownVisible = false
+                    timeRemaining = 60
+                    isTiktokSong = true
+                }
+        }
+        task.resume()
+        
+        
+    }
 
 }
 
@@ -295,6 +374,8 @@ struct SongView: View {
     @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     @ObservedObject var downloader = DownloadManager()
+    
+    var isTiktokSong: Bool
   
     var body: some View {
         
@@ -444,13 +525,22 @@ struct SongView: View {
                         self.songDuration = "\(minutesx):\(secondsx)"
                     }
                     
-//                  replace this with core data
-                    let playlist: PlayMusic
-                    playlist = PlayMusic(context: viewContext)
-                    playlist.link = "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3"
-                    playlist.title = videoTitle
-                    playlist.duration = songDuration
-                    playlist.date = date
+                    if (isTiktokSong) {
+                        let tkok: TiktokSongs
+                        tkok = TiktokSongs(context: viewContext)
+                        tkok.link = "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3"
+                        tkok.title = videoTitle
+                        tkok.duration = songDuration
+                        tkok.date = date
+                    }
+                    if (!isTiktokSong) {
+                       let playlist: PlayMusic
+                       playlist = PlayMusic(context: viewContext)
+                       playlist.link = "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/" + cml + ".mp3"
+                       playlist.title = videoTitle
+                       playlist.duration = songDuration
+                       playlist.date = date
+                    }
                  
                     do {
                        try self.viewContext.save()
