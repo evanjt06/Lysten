@@ -66,7 +66,6 @@ struct TiktokView: View {
                                     
                                     showingSheet = true
                                     
-                                    // stop playing lmfao
                                     if videoTitle != record.title && isPlaying {
                                         self.player.pause()
                                         self.isPlaying = false
@@ -195,7 +194,7 @@ struct SheetView2: View {
 
                                              
                                                 self.playValue = a
-                                                print(self.playValue)
+                                                
                                             
 
                                                 if (player.currentItem?.asset != nil) {
@@ -263,8 +262,7 @@ struct SheetView2: View {
                
             }.padding(15)
         }
-        // https://www.youtube.com/watch?v=Rf-ctwR7P-M
-        
+       
     }
 
     
@@ -273,11 +271,9 @@ struct SheetView2: View {
     func play(url:NSURL) {
         print("playing \(url)")
         
-//        check if the URL is downloaded locally
         downloader.checkFileExists(url: url.absoluteString!.replacingOccurrences(of: "https://s3.us-west-2.amazonaws.com/calc.masa.space/music/", with: ""))
         if downloader.isDownloaded {
-            print("IT IS DOWNLAODED!")
-            // get from main local bundle
+
             do {
 
              
@@ -300,10 +296,9 @@ struct SheetView2: View {
                 player.play()
                 
                 self.currentSongPlaying = url.absoluteString!
-                print(self.currentSongPlaying)
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Change `2.0` to the desired number of seconds.
-                    print("READY 2")
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Change `2.0` to the desired number of
                     self.isPlaying = true
                 }
               
@@ -316,7 +311,7 @@ struct SheetView2: View {
             
      
         if !downloader.isDownloaded {
-            print("IT IS NOT DOWNLAODED!")
+           
             do {
 
              
@@ -339,10 +334,10 @@ struct SheetView2: View {
                 player.play()
                 
                 self.currentSongPlaying = url.absoluteString!
-                print(self.currentSongPlaying)
+              
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Change `2.0` to the desired number of seconds.
-                    print("READY")
+                    
                     self.isPlaying = true
                 }
               

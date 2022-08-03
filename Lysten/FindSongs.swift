@@ -126,8 +126,7 @@ struct FindSongs: View {
                         timeRemaining = 90
                         countdown = Timer.publish(every: 1, on: .main, in: .common)
                         countdown.connect()
-                        print("connected...")
-                        
+                 
                         if textLink.contains("https://www.tiktok.com/t/") {
                             
                             temp = textLink.replacingOccurrences(of: "https://www.tiktok.com/t/", with: "").replacingOccurrences(of: "/?k=1", with: "")
@@ -135,7 +134,6 @@ struct FindSongs: View {
                             isCountdownVisible = true
                             sendApiCall_Tiktok(urlString: textLink)
 
-                            print(temp)
                         } else if textLink.contains("https://www.youtube.com/watch?v=") {
                             temp = textLink.replacingOccurrences(of: "https://www.youtube.com/watch?v=", with: "")
 
@@ -150,16 +148,10 @@ struct FindSongs: View {
                             temp = String(temp.prefix(11))
                             sendApiCall(urlString: temp)
 
-                            print(temp)
-                            
-                            // https://m.youtube.com/watch?v=Z3W0jKcv1SU&t=178s#dialog
-                            // Z3W0jKcv1SU
-
-
                         } else if textLink.contains("https://m.youtube.com/watch?v=") {
                             
                             temp = String(textLink.replacingOccurrences(of: "https://m.youtube.com/watch?v=", with: "").prefix(11))
-                            print(temp)
+                        
                             
                             // check for -
                             if temp.prefix(1) == "-" {
@@ -419,7 +411,6 @@ struct SongView: View {
                       let a = TimeInterval(Float64(x))
                       let max = CMTimeGetSeconds(player!.currentItem!.asset.duration)
                       
-                      print(136, round(x), round(max))
                       
                       let minutes = Int(round(x) / 60)
                       let seconds = Int(round(x)) - (minutes * 60)
@@ -545,7 +536,6 @@ struct SongView: View {
                     do {
                        try self.viewContext.save()
 
-                       print("SAVED")
                    } catch {
                        print("\(error.localizedDescription)")
                    }
