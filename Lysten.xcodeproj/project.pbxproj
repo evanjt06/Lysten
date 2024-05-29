@@ -1,0 +1,413 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		397F9EA926BB637F00174DB9 /* LystenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F9EA826BB637F00174DB9 /* LystenApp.swift */; };
+		397F9EAB26BB637F00174DB9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F9EAA26BB637F00174DB9 /* ContentView.swift */; };
+		397F9EAD26BB639B00174DB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 397F9EAC26BB639B00174DB9 /* Assets.xcassets */; };
+		397F9EB026BB639B00174DB9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 397F9EAF26BB639B00174DB9 /* Preview Assets.xcassets */; };
+		39B0706228938A6C00EA9057 /* Music.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39B0706028938A6C00EA9057 /* Music.xcdatamodeld */; };
+		39B0706428938AA800EA9057 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B0706328938AA800EA9057 /* Persistence.swift */; };
+		39B0707528939CBC00EA9057 /* PlayMusic+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B0707328939CBC00EA9057 /* PlayMusic+CoreDataClass.swift */; };
+		39B0707628939CBC00EA9057 /* PlayMusic+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B0707428939CBC00EA9057 /* PlayMusic+CoreDataProperties.swift */; };
+		39C45DA826BB6A1A00162F6D /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 39C45DA726BB6A1A00162F6D /* SwiftUIX */; };
+		39C45DAA26BB8B3500162F6D /* FindSongs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C45DA926BB8B3500162F6D /* FindSongs.swift */; };
+		39C45DAC26BB8B5D00162F6D /* AddSongs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C45DAB26BB8B5D00162F6D /* AddSongs.swift */; };
+		39EAED4228987AC80081921D /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EAED4128987AC70081921D /* DownloadManager.swift */; };
+		39EAED442898A0520081921D /* TiktokView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EAED432898A0520081921D /* TiktokView.swift */; };
+		39EAED472898A6410081921D /* TiktokSongs+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EAED452898A6410081921D /* TiktokSongs+CoreDataClass.swift */; };
+		39EAED482898A6410081921D /* TiktokSongs+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EAED462898A6410081921D /* TiktokSongs+CoreDataProperties.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		397F9EA526BB637F00174DB9 /* Lysten.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lysten.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		397F9EA826BB637F00174DB9 /* LystenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LystenApp.swift; sourceTree = "<group>"; };
+		397F9EAA26BB637F00174DB9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		397F9EAC26BB639B00174DB9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		397F9EAF26BB639B00174DB9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		397F9EB126BB639B00174DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39B0706128938A6C00EA9057 /* Music.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Music.xcdatamodel; sourceTree = "<group>"; };
+		39B0706328938AA800EA9057 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		39B0707328939CBC00EA9057 /* PlayMusic+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayMusic+CoreDataClass.swift"; sourceTree = "<group>"; };
+		39B0707428939CBC00EA9057 /* PlayMusic+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayMusic+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		39C45DA926BB8B3500162F6D /* FindSongs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindSongs.swift; sourceTree = "<group>"; };
+		39C45DAB26BB8B5D00162F6D /* AddSongs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSongs.swift; sourceTree = "<group>"; };
+		39EAED4128987AC70081921D /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		39EAED432898A0520081921D /* TiktokView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TiktokView.swift; sourceTree = "<group>"; };
+		39EAED452898A6410081921D /* TiktokSongs+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TiktokSongs+CoreDataClass.swift"; sourceTree = "<group>"; };
+		39EAED462898A6410081921D /* TiktokSongs+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TiktokSongs+CoreDataProperties.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		397F9EA226BB637F00174DB9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39C45DA826BB6A1A00162F6D /* SwiftUIX in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		397F9E9C26BB637F00174DB9 = {
+			isa = PBXGroup;
+			children = (
+				397F9EA726BB637F00174DB9 /* Lysten */,
+				397F9EA626BB637F00174DB9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		397F9EA626BB637F00174DB9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				397F9EA526BB637F00174DB9 /* Lysten.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		397F9EA726BB637F00174DB9 /* Lysten */ = {
+			isa = PBXGroup;
+			children = (
+				39EAED452898A6410081921D /* TiktokSongs+CoreDataClass.swift */,
+				39EAED462898A6410081921D /* TiktokSongs+CoreDataProperties.swift */,
+				39B0707328939CBC00EA9057 /* PlayMusic+CoreDataClass.swift */,
+				39B0707428939CBC00EA9057 /* PlayMusic+CoreDataProperties.swift */,
+				397F9EA826BB637F00174DB9 /* LystenApp.swift */,
+				397F9EAA26BB637F00174DB9 /* ContentView.swift */,
+				397F9EAC26BB639B00174DB9 /* Assets.xcassets */,
+				397F9EB126BB639B00174DB9 /* Info.plist */,
+				397F9EAE26BB639B00174DB9 /* Preview Content */,
+				39C45DA926BB8B3500162F6D /* FindSongs.swift */,
+				39C45DAB26BB8B5D00162F6D /* AddSongs.swift */,
+				39B0706028938A6C00EA9057 /* Music.xcdatamodeld */,
+				39B0706328938AA800EA9057 /* Persistence.swift */,
+				39EAED4128987AC70081921D /* DownloadManager.swift */,
+				39EAED432898A0520081921D /* TiktokView.swift */,
+			);
+			path = Lysten;
+			sourceTree = "<group>";
+		};
+		397F9EAE26BB639B00174DB9 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				397F9EAF26BB639B00174DB9 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		397F9EA426BB637F00174DB9 /* Lysten */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 397F9EB426BB639B00174DB9 /* Build configuration list for PBXNativeTarget "Lysten" */;
+			buildPhases = (
+				397F9EA126BB637F00174DB9 /* Sources */,
+				397F9EA226BB637F00174DB9 /* Frameworks */,
+				397F9EA326BB637F00174DB9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Lysten;
+			packageProductDependencies = (
+				39C45DA726BB6A1A00162F6D /* SwiftUIX */,
+			);
+			productName = Lysten;
+			productReference = 397F9EA526BB637F00174DB9 /* Lysten.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		397F9E9D26BB637F00174DB9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1250;
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					397F9EA426BB637F00174DB9 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+				};
+			};
+			buildConfigurationList = 397F9EA026BB637F00174DB9 /* Build configuration list for PBXProject "Lysten" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 397F9E9C26BB637F00174DB9;
+			packageReferences = (
+				39C45DA626BB6A1A00162F6D /* XCRemoteSwiftPackageReference "SwiftUIX" */,
+			);
+			productRefGroup = 397F9EA626BB637F00174DB9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				397F9EA426BB637F00174DB9 /* Lysten */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		397F9EA326BB637F00174DB9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				397F9EB026BB639B00174DB9 /* Preview Assets.xcassets in Resources */,
+				397F9EAD26BB639B00174DB9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		397F9EA126BB637F00174DB9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39C45DAC26BB8B5D00162F6D /* AddSongs.swift in Sources */,
+				39B0707528939CBC00EA9057 /* PlayMusic+CoreDataClass.swift in Sources */,
+				397F9EAB26BB637F00174DB9 /* ContentView.swift in Sources */,
+				39B0707628939CBC00EA9057 /* PlayMusic+CoreDataProperties.swift in Sources */,
+				39C45DAA26BB8B3500162F6D /* FindSongs.swift in Sources */,
+				39B0706428938AA800EA9057 /* Persistence.swift in Sources */,
+				39EAED482898A6410081921D /* TiktokSongs+CoreDataProperties.swift in Sources */,
+				397F9EA926BB637F00174DB9 /* LystenApp.swift in Sources */,
+				39EAED4228987AC80081921D /* DownloadManager.swift in Sources */,
+				39EAED472898A6410081921D /* TiktokSongs+CoreDataClass.swift in Sources */,
+				39EAED442898A0520081921D /* TiktokView.swift in Sources */,
+				39B0706228938A6C00EA9057 /* Music.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		397F9EB226BB639B00174DB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		397F9EB326BB639B00174DB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		397F9EB526BB639B00174DB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Lysten/Preview Content\"";
+				DEVELOPMENT_TEAM = TYCRSTPK8G;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Lysten/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.evantu;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		397F9EB626BB639B00174DB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Lysten/Preview Content\"";
+				DEVELOPMENT_TEAM = TYCRSTPK8G;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Lysten/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.evantu;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		397F9EA026BB637F00174DB9 /* Build configuration list for PBXProject "Lysten" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				397F9EB226BB639B00174DB9 /* Debug */,
+				397F9EB326BB639B00174DB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		397F9EB426BB639B00174DB9 /* Build configuration list for PBXNativeTarget "Lysten" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				397F9EB526BB639B00174DB9 /* Debug */,
+				397F9EB626BB639B00174DB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		39C45DA626BB6A1A00162F6D /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		39C45DA726BB6A1A00162F6D /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39C45DA626BB6A1A00162F6D /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		39B0706028938A6C00EA9057 /* Music.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				39B0706128938A6C00EA9057 /* Music.xcdatamodel */,
+			);
+			currentVersion = 39B0706128938A6C00EA9057 /* Music.xcdatamodel */;
+			path = Music.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 397F9E9D26BB637F00174DB9 /* Project object */;
+}
